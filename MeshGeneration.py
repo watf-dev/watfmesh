@@ -10,11 +10,11 @@ import nurbs.UniformBspline
 DEBUG = False
 
 class MeshGeneration:
-  def __init__(self, space, nes, orders, nsd):
+  def __init__(self, space, nes, orders):
     self.space = space
     self.nes = nes
-    self.nsd = nsd
-    self.orders = orders
+    self.orders = [orders for _ in range(len(nes))]
+    self.nsd = len(nes)
     self.npd = len(nes)
     self.nens = []
     self.nen = 1
@@ -56,6 +56,8 @@ class MeshGeneration:
         mien[i] = mien[i+1]
         mien[i+1] = mien_
     return mien
+  def genNSD(self):
+    return self.nsd
   def genNPD(self):
     return self.npd
   def genNN(self):
@@ -69,7 +71,6 @@ class MeshGeneration:
     return self.nen
   def genMXYZ(self):
     xyz = self.genXYZ()
-    print("xyz",xyz)
     nns = []
     for i in range(len(self.nes)):
       nns.append(len(xyz[i]))
